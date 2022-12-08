@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import styled from 'styled-components'
-import { NewFolder, NewPlayground, NewPlaygroundAndFolder } from './ModalTypes'
+import { NewFolder, NewPlayground, NewPlaygroundAndFolder, EditFolder, EditPlaygroundTitle, Loading } from './ModalTypes'
+import { ModalContext } from '../context/ModalContext'
 
 const ModalContainer = styled.div`
     position: fixed;
@@ -9,7 +10,8 @@ const ModalContainer = styled.div`
 
     width: 100%;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,35 +19,60 @@ const ModalContainer = styled.div`
 
 const ModalContent = styled.div`
     background-color: #fff;
-    padding: 0.5rem;
-    
+    padding: 1.5rem;
+    width: 35%;
+    min-width: 300px;
+    border-radius: 10px;
 `
 
 export const Header = styled.div`
-  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 0;
 `
+export const CloseButton = styled.button`
+  background: transparent;
+  outline: 0;
+  border: 0;
+  font-size: 2rem;
+  cursor: pointer;
+`;
 
-export const Heading = styled.h3`
-  font-weight: 400;
+export const Input = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 1.5rem 0;
+  gap: 2rem;
+  padding-bottom: 0;
 
-  span{
-    font-weight: 700;
+  input {
+    flex-grow: 1;
+    height: 2rem;
   }
-`
+
+  button {
+    background: #241f21;
+    height: 2.5rem;
+    color: white;
+    padding: 0.3rem 2rem;
+  }
+`;
 
 const Modal = () => {
-  const type = 3;
-
+  const { isOpenModal } = useContext(ModalContext)
+  const { modalType } = isOpenModal;
+ 
   return (
     <ModalContainer>
       <ModalContent>
-        {type === 1 && <NewFolder />}
-        {type === 2 && <NewPlayground />}
-        {type === 3 && <NewPlaygroundAndFolder />}
+        {modalType === 1 && <NewFolder />}
+        {modalType === 2 && <NewPlayground />}
+        {modalType === 3 && <NewPlaygroundAndFolder />}
+        {modalType === 4 && <EditFolder />}
+        {modalType === 5 && <EditPlaygroundTitle />}
+        {modalType === 6 && <Loading />}
       </ModalContent>
     </ModalContainer>
   )

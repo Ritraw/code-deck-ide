@@ -1,18 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import logo from '../../assests/logo.png';
+import logo from '../../assests/logo.png'
+import { ModalContext } from '../../context/ModalContext'
 
 const StyledLeftComponent = styled.div`
-position: fixed;
-top: 0;
-left: 0;
-width: 40%;
-height: 100vh;
-background-color: #241f21;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40%;
+    height: 100vh;
+    background-color: #1e1e1e;
 
-display: flex;
-justify-content: center;
-align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 768px){
+        position: relative;
+        width: 100%;
+    }
 `
 const ContentContainer = styled.div`
     text-align: center;
@@ -39,13 +45,17 @@ const SubHeading = styled.div`
     opacity: 0.7;
     margin-bottom: 1.5rem;
 `
-const AddPlayground = styled.button`
+
+const AddNewButton = styled.button`
     padding: 0.25rem 1.5rem;
     font-size: 1rem;
+    border: none;
     border-radius: 30px;
+    box-shadow: 0px 0px 4px 2px #8b8b8b;
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    transition: all 0.2s ease-in-out;
     span{
         font-size: 2rem;
         font-weight: 700;
@@ -53,22 +63,29 @@ const AddPlayground = styled.button`
 
     &:hover{
         cursor: pointer;
+        scale: 1.05;
+        box-shadow: 0px 0px 6px 2px #8b8b8b;
     }
 `
-
 const LeftComponent = () => {
-  return (
-    <StyledLeftComponent>
-        <ContentContainer>
-            <Logo src={logo}/>
-            <MainHeading><span>Code</span> Deck</MainHeading>
-            <SubHeading>Code. Compile. Develop.</SubHeading>
-            <AddPlayground><span>+</span> Create New Playground</AddPlayground>          
-        </ContentContainer>
-    </StyledLeftComponent>
-
-  )
+    const { openModal } = useContext(ModalContext);
+    return (
+        <StyledLeftComponent>
+            <ContentContainer>
+                <Logo src={logo} alt="" />
+                <MainHeading> <span>Code</span> Deck</MainHeading>
+                <SubHeading>Code. Compile. Debug.</SubHeading>
+                <AddNewButton onClick={() => openModal({
+                    show: true,
+                    modalType: 3,
+                    identifiers: {
+                        folderId: "",
+                        cardId: "",
+                    }
+                })} ><span>+</span> Create New Playground</AddNewButton>
+            </ContentContainer>
+        </StyledLeftComponent>
+    )
 }
 
 export default LeftComponent
- 
